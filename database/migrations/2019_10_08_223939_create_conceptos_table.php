@@ -14,7 +14,7 @@ class CreateConceptosTable extends Migration
     public function up()
     {
         Schema::create('conceptos', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->timestamps();
             $table->integer('codigo');
             $table->string('concepto');

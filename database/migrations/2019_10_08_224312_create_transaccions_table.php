@@ -14,7 +14,7 @@ class CreateTransaccionsTable extends Migration
     public function up()
     {
         Schema::create('transacciones', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->timestamps();
             $table->float('pago');
             $table->date('fecha');

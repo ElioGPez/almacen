@@ -14,7 +14,7 @@ class LiquidacionConceptos extends Migration
     public function up()
     {
         Schema::create('liquidacion_conceptos', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->timestamps();  
             $table->integer('liquidacion_id')->unsigned();
             $table->foreign('liquidacion_id')->references('id')->on('liquidaciones')->ondelete('cascade');

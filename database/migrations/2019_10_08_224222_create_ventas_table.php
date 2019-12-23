@@ -15,7 +15,7 @@ class CreateVentasTable extends Migration
     public function up()
     {
         Schema::create('ventas', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->timestamps();
             $table->float('monto');
             $table->integer('empleado_id')->unsigned();

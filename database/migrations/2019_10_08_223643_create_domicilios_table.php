@@ -14,7 +14,7 @@ class CreateDomiciliosTable extends Migration
     public function up()
     {
         Schema::create('domicilios', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->timestamps();
             $table->string('direccion');
             $table->string('barrio')->nullable();

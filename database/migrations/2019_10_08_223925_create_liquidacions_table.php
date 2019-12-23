@@ -14,7 +14,7 @@ class CreateLiquidacionsTable extends Migration
     public function up()
     {
         Schema::create('liquidaciones', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->timestamps();
             $table->float('sueldo_neto');
             $table->date('periodo');
