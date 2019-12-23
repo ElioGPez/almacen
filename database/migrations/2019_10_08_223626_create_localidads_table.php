@@ -14,7 +14,7 @@ class CreateLocalidadsTable extends Migration
     public function up()
     {
         Schema::create('localidades', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->timestamps();
             $table->string('nombre');
             $table->integer('provincia_id')->unsigned();
