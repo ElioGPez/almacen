@@ -26,36 +26,41 @@ Route::post('assign-role', 'JwtAuthenticateController@assignRole');
 Route::post('attach-permission', 'JwtAuthenticateController@attachPermission');
 
 
-Route::get('categoria/filtro/{filtro}',[
-    'uses'  =>  'CategoriaController@filtro',
-    'as'    =>  'categoria.filtro',
-    ]);
 
-    Route::resource('categoria','CategoriaController');
-    Route::resource('producto','ProductoController');
-    Route::resource('compra','CompraController');
-    Route::get('cliente/localidades',[
-        'uses'  =>  'ClienteController@localidades',
-        'as'    =>  'cliente.localidades',
-        ]);    
-    Route::resource('cliente','ClienteController');
-    Route::get('cuenta/{id}',[
-        'uses'  =>  'ClienteController@cuenta',
-        'as'    =>  'categoria.cuenta',
-        ]);    
-    Route::get('venta/estadisticas',[
-        'uses'  =>  'VentaController@estadistica',
-        'as'    =>  'venta.estadistica',
-        ]);
-    Route::get('venta/productos',[
-        'uses'  =>  'VentaController@producto',
-        'as'    =>  'venta.producto',
-    ]); 
-    Route::resource('venta','VentaController');
+
 
 Route::middleware('ability:ADMIN,create-users')->group(function () {
-
-    // Protected route
+    Route::get('categoria/filtro/{filtro}',[
+        'uses'  =>  'CategoriaController@filtro',
+        'as'    =>  'categoria.filtro',
+        ]);
+        Route::resource('proveedor','ProveedorController');
+        Route::resource('categoria','CategoriaController');
+        Route::resource('producto','ProductoController');
+        Route::resource('compra','CompraController');
+        Route::get('cliente/localidades',[
+            'uses'  =>  'ClienteController@localidades',
+            'as'    =>  'cliente.localidades',
+            ]);    
+        Route::resource('cliente','ClienteController');
+        Route::get('cuenta/{id}',[
+            'uses'  =>  'ClienteController@cuenta',
+            'as'    =>  'categoria.cuenta',
+            ]);    
+        Route::get('venta/informe/{fecha_inicio}/{fecha_fin}', [
+            'as' => 'infome',
+            'uses' => 'VentaController@obtenerInforme',
+        ]);
+        Route::get('venta/estadisticas',[
+            'uses'  =>  'VentaController@estadistica',
+            'as'    =>  'venta.estadistica',
+            ]);
+        Route::get('venta/productos',[
+            'uses'  =>  'VentaController@producto',
+            'as'    =>  'venta.producto',
+        ]); 
+        Route::resource('venta','VentaController');
+        // Protected route
     Route::get('users', 'JwtAuthenticateController@index');
 
 });

@@ -17,9 +17,15 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos=DB::table('productos as c');
+        $productos=DB::table('productos as c')->get();
+        $categorias=DB::table('categorias as c')->get();
 
-        return $productos->get();  
+        $resultados[] = [
+            'productos' => $productos,
+            'categorias' => $categorias
+        ];
+        //$productos=Producto::with(['categoria']);
+        return $resultados;  
     }
 
     /**
@@ -93,8 +99,20 @@ class ProductoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+        //return $request;
+        $producto = Producto::findOrFail($id);
+
+        $producto->categoria_id = $request->get('categoria_id');
+        $producto->nombre = $request->get('nombre');
+        $producto->codigo = $request->get('codigo');
+        $producto->fecha_vencimiento = $request->get('fecha_vencimiento');
+        $producto->stock_minimo = $request->get('stock_minimo');
+        $producto->descripcion = $request->get('descripcion');
+        $producto->precio_venta = $request->get('precio_venta');
+
+        $producto->update();
+
+        return $producto;    }
 
     /**
      * Remove the specified resource from storage.

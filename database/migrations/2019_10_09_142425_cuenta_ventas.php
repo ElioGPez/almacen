@@ -13,7 +13,7 @@ class CuentaVentas extends Migration
      */
     public function up()
     {
-        Schema::create('cuenta_ventas', function (Blueprint $table) {
+        Schema::create('cuenta_venta', function (Blueprint $table) {
             $table->timestamps();  
             $table->integer('cuenta_id')->unsigned();
             $table->foreign('cuenta_id')->references('id')->on('cuentas')->ondelete('cascade');

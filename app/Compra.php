@@ -9,7 +9,7 @@ class Compra extends Model
 	protected $table = "compras";
     protected $primaryKey ="id";
 
-    protected $filable = ['fecha','monto','empleado_id','proveedor_id'];
+    protected $filable = ['fecha','monto','empleado_id','proveedor_id','created_at'];
     
     public function proveedor()
     {

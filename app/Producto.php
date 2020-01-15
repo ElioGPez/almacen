@@ -26,6 +26,6 @@ class Producto extends Model
     }
     public function linea_compra()
     {
-        return $this->belongsTo('App\Linea_Compra');
+        return $this->hasMany('App\Linea_Compra');
     }
 }

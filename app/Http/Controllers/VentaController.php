@@ -36,6 +36,49 @@ class VentaController extends Controller
          
          return $ventas; 
     }
+
+    public function obtenerInforme($desde,$hasta){
+        $ventas = [];
+        $compras = [];
+
+        if($hasta == '-'){
+            $ventas = Venta::with(['cuenta','linea_venta','linea_venta.producto'])->whereBetween('created_at', array($desde.' 00', $desde.' 23'))->orderBy('id','DESC')->get();
+            $compras = Compra::with(['linea_compra','linea_compra.producto'])->whereBetween('created_at', array($desde.' 00', $desde.' 23'))->orderBy('id','DESC')->get();
+            //$gastos = Gasto::with(['linea_gasto','linea_gasto.producto'])->where('fecha', '=', $desde)->orderBy('id','DESC')->paginate(8);
+           // return $compras->get();
+        }else{
+            $ventas = Venta::with(['cuenta','linea_venta','linea_venta.producto'])->whereBetween('created_at', array($desde, $hasta))->orderBy('id','DESC')->get();
+            $compras = Compra::with(['linea_compra','linea_compra.producto'])->whereBetween('created_at', array($desde, $hasta))->orderBy('id','DESC')->get();
+           // $gastos = Gasto::with(['linea_gasto','linea_gasto.producto'])->whereBetween('fecha', array($desde, $hasta))->orderBy('id','DESC')->paginate(8);
+        }
+
+        if($ventas!=[] && $compras!=[]){
+            //return $ventas->get();
+            $informe2[] = [
+                'ventas' => $ventas,
+                'compras' => $compras
+            ];
+            return $informe2;
+        }else
+        if($ventas==[] && $compras!=[]){
+            $informe2[] = [
+                'ventas' => [
+                ],
+                'compras' => $compras
+            ];
+            return $informe2;
+        }else
+        if($ventas!=[] && $compras==[]){
+            $informe2[] = [
+                'ventas' => $ventas,
+                'compras' => []
+            ];
+            return $informe2;
+        }
+
+
+    }
+
     public function producto()
     {
         $ventas = DB::select('select  p.nombre as Producto , sum(lv.cantidad) as Cantidad
@@ -70,8 +113,18 @@ class VentaController extends Controller
        /* $mytime= Carbon::now('America/Argentina/Tucuman');
         $venta->fecha = $mytime->toDateTimeString();*/
         $venta->empleado_id = $request->empleado_id;
-       
+        // $venta->cuenta = $cuenta;
         $venta->save();
+        //Va a cuenta?
+        if($request->cliente_id != ''){
+            $cuenta = Cuenta::where('cliente_id','=',$request->cliente_id)->get();
+            $cuenta[0]->saldo =  $cuenta[0]->saldo + $request->total;
+            $cuenta[0]->save();
+        
+            //Establecemos la relacion mucho a muchos
+    		$venta->cuenta()->attach($cuenta);
+        }
+
         //dd($request->linea_venta);
         $linea_venta = $request->linea_venta;
         foreach ($linea_venta as $linea) {
@@ -91,13 +144,6 @@ class VentaController extends Controller
             $producto->stock -= $linea["cantidad"];
             $producto->save();
           //}
-        }
-
-        //Va a cuenta?
-        if($request->cliente_id != ''){
-            $cuenta = Cuenta::where('cliente_id','=',$request->cliente_id)->get();
-            $cuenta[0]->saldo =  $cuenta[0]->saldo + $request->total;
-            $cuenta[0]->save();
         }
 
         return $venta;

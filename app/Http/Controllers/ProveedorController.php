@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Categoria;
+use App\Proveedor;
 use DB;
 
-class CategoriaController extends Controller
+class ProveedorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,24 +15,22 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        $categorias=DB::table('categorias as c');
-
-        return $categorias->get();
+        $proveedores=DB::table('proveedores as c');
+        return $proveedores->get();
     }
-
-    public function filtro($categoria)
+    public function filtro($proveedor)
     {
-        if($categoria != '_'){
-            $categorias=DB::table('categorias as c')
-            ->where('c.categoria','LIKE',"%$categoria%")
+        if($proveedor != '_'){
+            $proveedores=DB::table('proveedores as c')
+            ->where('c.razon_social','LIKE',"%$proveedor%")
             ->paginate(2);
     
-            return $categorias;
+            return $proveedores;
         }else{
-            $categorias=DB::table('categorias as c')
+            $proveedores=DB::table('proveedores as c')
              ->paginate(2);
      
-             return $categorias;
+             return $proveedores;
         }
 
     }
@@ -54,10 +52,14 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        $categoria = new Categoria;
-        $categoria->categoria = $request->categoria;
-        $categoria->save();
-        return 'categoria creada!!';
+        $proveedor = new Proveedor;
+        $proveedor->razon_social = $request->razon_social;
+        $proveedor->cuit = $request->cuit;
+        $proveedor->email = $request->email;
+        $proveedor->telefono = $request->telefono;
+        $proveedor->estado = '1';
+        $proveedor->save();
+        return 'Proveedor creado!!';
     }
 
     /**
