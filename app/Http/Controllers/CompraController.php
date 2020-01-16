@@ -47,8 +47,9 @@ class CompraController extends Controller
         $mytime= Carbon::now('America/Argentina/Tucuman');
         $compra->fecha = $mytime->toDateTimeString();
         //$compra->estado = 'PAGADA'; 
-        $compra->proveedor_id = '1';
-        $compra->empleado_id = '1';
+        //return  $request->proveedor
+        $compra->proveedor_id =  $request->proveedor_id;
+        $compra->empleado_id = $request->empleado_id;
         $compra->save();
 
         $linea_compra = $request->linea_compra;
