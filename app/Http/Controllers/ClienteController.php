@@ -90,7 +90,7 @@ class ClienteController extends Controller
         ])
         ->where('cliente_id','=',$id);
         return $cuenta->get();
-    }
+    } 
     //Para registrar un pago
     public function pago(Request $request)
     {
