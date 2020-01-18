@@ -8,6 +8,8 @@ use App\Provincia;
 use App\Cliente;
 use App\Cuenta;
 use App\Domicilio;
+use App\Transaccion;
+use Carbon\Carbon;
 
 class ClienteController extends Controller
 {
@@ -81,16 +83,26 @@ class ClienteController extends Controller
     {
         //
     }
+    //Para obtener los datos de la cuenta
     public function cuenta($id)
     {
-        $cuenta = Cuenta::with(['cliente','transaccion'
+        $cuenta = Cuenta::with(['cliente','transaccion','venta'
         ])
         ->where('cliente_id','=',$id);
-
-        /*$cuanta=DB::table('cuentas as c')
-        ->where('c.cliente_id','=',$id);*/
-
         return $cuenta->get();
+    }
+    //Para registrar un pago
+    public function pago(Request $request)
+    {
+        $transaccion = new Transaccion;
+        $transaccion->pago = $request->pago;
+        $transaccion->cuenta_id = $request->cuenta_id;
+        
+        $mytime= Carbon::now('America/Argentina/Tucuman');
+        $transaccion->fecha = $mytime->toDateTimeString();
+
+        $transaccion->save();
+        return $transaccion;
     }
     /**
      * Show the form for editing the specified resource.

@@ -47,6 +47,7 @@ Route::middleware('ability:ADMIN,create-users')->group(function () {
             'uses'  =>  'ClienteController@cuenta',
             'as'    =>  'categoria.cuenta',
             ]);    
+        Route::post('pago', 'ClienteController@pago');
         Route::get('venta/informe/{fecha_inicio}/{fecha_fin}', [
             'as' => 'infome',
             'uses' => 'VentaController@obtenerInforme',
