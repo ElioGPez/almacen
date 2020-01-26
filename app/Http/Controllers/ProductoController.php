@@ -52,7 +52,7 @@ class ProductoController extends Controller
         $producto->codigo = $request->codigo;
         $producto->tipo = $request->tipo;
         $producto->precio_venta = $request->precio_venta;
-        $producto->stock = $request->stock;
+        $producto->stock = '0';
         $producto->fecha_vencimiento = $request->fecha_vencimiento;
         $producto->stock_minimo = $request->stock_minimo;
         $producto->categoria_id = $request->categoria_id;

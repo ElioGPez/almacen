@@ -21,7 +21,7 @@ class CreateProductosTable extends Migration
             $table->float('precio_venta');            
             $table->string('codigo');
             $table->date('fecha_vencimiento');
-            $table->integer('stock')->nullable();
+            $table->integer('stock')->default('0')->nullable();
             $table->integer('stock_minimo')->default('5')->nullable();
             $table->enum('tipo', ['UNIDAD','KILO'])->default('UNIDAD')->nullable();
             $table->integer('categoria_id')->unsigned();

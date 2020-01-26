@@ -100,7 +100,7 @@ class ClienteController extends Controller
         
         $mytime= Carbon::now('America/Argentina/Tucuman');
         $transaccion->fecha = $mytime->toDateTimeString();
-
+        
         $transaccion->save();
         return $transaccion;
     }
